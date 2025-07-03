@@ -1,52 +1,123 @@
+// import { authService } from "@service";
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { setItem } from "../../helpers";
+
+// const SignIn = () => {
+//     const [email, setEmail] = useState('')
+//     const [password, setPassword] = useState('')
+//     const [role, setRole] = useState('')
+//     const navigate = useNavigate()
+//     const submit =async()=>{
+//         const payload = {email, password}
+//         const res = await authService.signIn(payload, role)
+//         if (res?.status ===201) {
+//             setItem('access_token', res.data.access_token)
+//             setItem('role', role)
+//             navigate(`/${role}`)
+//         }
+//     }
+
+
+//     return (
+//       <div>
+//         <input
+//           type="email"
+//           onChange={(e) => setEmail(e.target.value)}
+//           placeholder="Email"
+//         />
+//         <input
+//           type="passwrod"
+//           onChange={(e) => setPassword(e.target.value)}
+//           placeholder="password"
+//         />
+//         <select onChange={(e) => setRole(e.target.value)}>
+//           <option value="teacher">teacher</option>
+//           <option value="student">student</option>
+//           <option value="admin">admin</option>
+//           <option value="lid">lid</option>
+//         </select>
+//         <button onClick={submit}>submit</button>
+//       </div>
+//     );
+
+// };
+
+// export default SignIn;
+
+import React, { useState } from "react";
+import { Form, Input, Button, Select, message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { authService } from "@service";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input } from "antd";
+import { setItem } from "../../helpers";
+
+const { Option } = Select;
 
 const SignIn = () => {
-  const onFinish = (values: { email: string; password: string }) => {
-    authService.signIn(values);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const onFinish = async (values: any) => {
+    const { email, password, role } = values;
+    setLoading(true);
+
+    try {
+      const res = await authService.signIn({ email, password }, role);
+
+      if (res?.status === 201) {
+        setItem("access_token", res.data.access_token);
+        setItem("role", role);
+        navigate(`/${role}`);
+      } else {
+        message.error("Invalid credentials or role");
+      }
+    } catch (err) {
+      console.error(err);
+      message.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Form
-      name="login"
-      initialValues={{ remember: true }}
-      style={{ maxWidth: 360 }}
+      layout="vertical"
       onFinish={onFinish}
+      initialValues={{ role: "student" }}
+      style={{ maxWidth: 400, margin: "auto", marginTop: 40 }}
     >
       <Form.Item
+        label="Email"
         name="email"
         rules={[
-          { required: true, message: "Please input your Email!" },
-          { type: "email", message: "The input is not a valid email!" },
+          { required: true, message: "Please input your email!" },
+          { type: "email", message: "Invalid email format!" },
         ]}
       >
-        <Input prefix={<UserOutlined />} placeholder="Email" />
+        <Input placeholder="Email" />
       </Form.Item>
 
       <Form.Item
+        label="Password"
         name="password"
-        rules={[
-          { required: true, message: "Please input your Password!" },
-          { min: 8, message: "Password must be at least 8 characters" },
-          {
-            pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/,
-            message: "Password must contain at least one letter and one number",
-          },
-        ]}
+        rules={[{ required: true, message: "Please input your password!" }]}
       >
-        <Input
-          prefix={<LockOutlined />}
-          type="password"
-          placeholder="Password"
-        />
+        <Input.Password placeholder="Password" />
+      </Form.Item>
+
+      <Form.Item label="Role" name="role" rules={[{ required: true }]}>
+        <Select>
+          <Option value="teacher">Teacher</Option>
+          <Option value="student">Student</Option>
+          <Option value="admin">Admin</Option>
+          <Option value="lid">Lid</Option>
+        </Select>
       </Form.Item>
 
       <Form.Item>
-        <Button block type="primary" htmlType="submit">
-          Log in
+        <Button type="primary" htmlType="submit" block loading={loading}>
+          Sign In
         </Button>
-        or <a href="">Register now!</a>
       </Form.Item>
     </Form>
   );
