@@ -1,41 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Input, DatePicker, Select } from "antd";
-// import dayjs from "dayjs";
-import type { GroupsType } from "@types";
-import { useGroupCreate } from "../hooks";
+import dayjs from "dayjs";
+import type { GroupsType } from "../types";
+import { useGroupUpdate } from "../hooks";
 
 const { Option } = Select;
 
-const AddGroup: React.FC = () => {
+interface Props {
+  group: GroupsType;
+}
+
+const EditGroup: React.FC<Props> = ({ group }) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const { mutate, isPending } = useGroupCreate();
+  const { mutate: updateGroup, isPending } = useGroupUpdate();
+
+  useEffect(() => {
+    if (group) {
+      form.setFieldsValue({
+        ...group,
+        start_date: dayjs(group.start_date),
+        end_date: dayjs(group.end_date),
+      });
+    }
+  }, [group, form]);
 
   const handleSubmit = async () => {
     const values = await form.validateFields();
     const payload: GroupsType = {
       ...values,
+      id: group.id,
       course_id: Number(values.course_id),
       start_date: values.start_date.format("YYYY-MM-DD"),
       end_date: values.end_date.format("YYYY-MM-DD"),
     };
-    mutate(payload);
+    updateGroup({ id: group.id, data: payload });
     setOpen(false);
-    form.resetFields();
   };
 
   return (
     <>
-      <Button type="primary" onClick={() => setOpen(true)}>
-        Add Group
-      </Button>
+      <Button onClick={() => setOpen(true)}>Edit</Button>
       <Modal
-        title="Add New Group"
+        title="Edit Group"
         open={open}
         confirmLoading={isPending}
         onOk={handleSubmit}
         onCancel={() => setOpen(false)}
-        
       >
         <Form layout="vertical" form={form}>
           <Form.Item
@@ -79,4 +90,4 @@ const AddGroup: React.FC = () => {
   );
 };
 
-export default AddGroup;
+export default EditGroup;
