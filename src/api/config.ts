@@ -8,7 +8,7 @@ export function apiConfig() {
       Notification("success", res.data.message);
       return res;
     } catch (error) {
-      Notification("error", error?.message);
+      Notification("error", (error as any)?.message || "Something went wrong");
     }
   }
 
@@ -18,7 +18,7 @@ export function apiConfig() {
       Notification("success", res.data.message);
       return res;
     } catch (error) {
-      Notification("error", error?.message);
+      Notification("error", (error as any)?.message || "Something went wrong");
     }
   }
 
@@ -28,7 +28,7 @@ export function apiConfig() {
       Notification("success", res.data.message);
       return res;
     } catch (error) {
-      Notification("error", error?.message);
+      Notification("error", (error as any)?.message || "Something went wrong");
     }
   }
 
@@ -38,7 +38,7 @@ export function apiConfig() {
       Notification("success", res.data.message);
       return res;
     } catch (error) {
-      Notification("error", error?.message);
+      Notification("error", (error as any)?.message || "Something went wrong");
     }
   }
 
@@ -48,7 +48,7 @@ export function apiConfig() {
       Notification("success", res.data.message);
       return res;
     } catch (error) {
-      Notification("error", error?.message);
+      Notification("error", (error as any)?.message || "Something went wrong");
     }
   }
 

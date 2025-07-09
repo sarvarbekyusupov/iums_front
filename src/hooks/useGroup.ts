@@ -7,6 +7,7 @@ export const useGroup = () => {
     queryKey: ["groups"],
     queryFn: () => groupService.getGroups(),
   });
+  console.log(data);
 
   return {
     groups: data,

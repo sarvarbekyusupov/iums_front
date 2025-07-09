@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Outlet, useNavigate } from "react-router-dom";
 import {
   MailOutlined,
@@ -19,8 +19,24 @@ const items: MenuItem[] = [
         label: "GROUPS",
         type: "group",
         children: [
-          { key: "add-group", label: "ADD GROUP" },
-          { key: "groups-list", label: "GROUPS LIST" },
+        
+          { key: "groups", label: "Groups" },
+        ],
+      },
+      {
+        key: "g2",
+        label: "COURSES",
+        type: "group",
+        children: [
+          { key: "courses", label: "Courses" },
+        ],
+      },
+      {
+        key: "g3",
+        label: "STUDENTS",
+        type: "group",
+        children: [
+          { key: "students", label: "Students" },
         ],
       },
     ],

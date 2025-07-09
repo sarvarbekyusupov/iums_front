@@ -1,4 +1,3 @@
-import { authService } from "@service";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setItem } from "../../helpers";

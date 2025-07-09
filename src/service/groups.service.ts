@@ -7,7 +7,10 @@ import { type GroupsType } from "@types";
 export const groupService = {
   async getGroups() {
     const res = await apiConfig().getRequest(ApiUrls.GROUPS);
-    return res!.data.data;
+    return res?.data.data;
+    console.log("res", res);
+    console.log("data", res!.data);
+    
   },
 
   async createGroups(model: GroupsType) {
