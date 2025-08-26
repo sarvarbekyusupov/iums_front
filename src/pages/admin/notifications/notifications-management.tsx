@@ -27,7 +27,7 @@ const NotificationsManagement: React.FC = () => {
 
   const markAsRead = async (notificationId: number) => {
     try {
-      await notificationsService.markAsRead(notificationId);
+      await notificationsService.markAsRead({ notificationIds: [notificationId.toString()] });
       message.success('Notification marked as read');
       fetchNotifications();
     } catch (error: any) {

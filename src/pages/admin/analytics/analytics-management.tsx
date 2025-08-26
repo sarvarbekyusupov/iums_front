@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Typography, Space, Button, Table, message, Spin, Row, Col, Statistic } from 'antd';
+import { Card, Typography, Space, Table, message, Spin, Row, Col, Statistic } from 'antd';
 import { BarChartOutlined, LineChartOutlined, PieChartOutlined } from '@ant-design/icons';
 import { analyticsService, siteKpisService } from '../../../service';
 
@@ -18,7 +18,7 @@ const AnalyticsManagement: React.FC = () => {
   const fetchAnalytics = async () => {
     try {
       setLoading(true);
-      const analyticsData = await analyticsService.getDashboardAnalytics();
+      const analyticsData = await analyticsService.getExecutiveDashboard();
       setAnalytics(analyticsData);
     } catch (error: any) {
       message.error('Failed to fetch analytics: ' + (error?.message || 'Unknown error'));

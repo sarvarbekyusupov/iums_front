@@ -30,9 +30,6 @@ import type {
   AlarmDetailQueryDto,
   DivertorListQueryDto,
   DivertorDetailQueryDto,
-  EquipmentDayStatsQueryDto,
-  EquipmentMonthStatsQueryDto,
-  EquipmentYearStatsQueryDto,
   HopeCloudMetrics,
   HopeCloudAuthValidation
 } from '../types/hopecloud';

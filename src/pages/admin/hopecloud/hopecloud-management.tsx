@@ -47,7 +47,6 @@ import {
   LineChartOutlined,
   ApiOutlined,
   UserOutlined,
-  EnvironmentOutlined,
   SearchOutlined,
   ToolOutlined,
   RadarChartOutlined,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Typography, Space, Button, Table, message, Spin, Statistic, Row, Col } from 'antd';
+import { Card, Typography, Button, Table, message, Spin, Statistic, Row, Col } from 'antd';
 import { MonitorOutlined, ReloadOutlined, AlertOutlined } from '@ant-design/icons';
 import { monitoringService, deviceAlarmsService } from '../../../service';
 
@@ -18,7 +18,7 @@ const MonitoringManagement: React.FC = () => {
   const fetchSystemStatus = async () => {
     try {
       setLoading(true);
-      const status = await monitoringService.getSystemStatus();
+      const status = await monitoringService.getSystemHealth();
       setSystemStatus(status);
     } catch (error: any) {
       message.error('Failed to fetch system status: ' + (error?.message || 'Unknown error'));

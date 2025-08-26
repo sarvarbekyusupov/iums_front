@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Typography, Space, Button, Table, message, Spin } from 'antd';
+import { Card, Typography, Button, Table, message, Spin } from 'antd';
 import { HomeOutlined, PlusOutlined } from '@ant-design/icons';
 import { sitesService } from '../../../service';
 import type { SiteResponseDto } from '../../../types';
@@ -62,7 +62,7 @@ const SitesManagement: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (record: SiteResponseDto) => (
+      render: () => (
         <Button type="link">View Details</Button>
       ),
     },
