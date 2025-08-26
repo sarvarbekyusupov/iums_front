@@ -20,7 +20,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://3.71.162.78:3000',
+        target: 'https://jafabackend.duckdns.org',
         changeOrigin: true,
         secure: false,
         ws: true,
