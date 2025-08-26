@@ -8,18 +8,23 @@ import App from "../App";
 import {
   NotFound,
   SignIn,
-  TeacherLayout,
-  StudentLayout,
-  AdminLayout,
-  Groups,
-  Courses,
-  Students,
+  ActivateAccount,
+  ResetPassword,
+  ForgotPassword,
 } from "@pages";
-
-
 import { LayoutProtect } from "@pages";
-import {LoginProtect} from "@pages"; 
-
+import { LoginProtect } from "@pages";
+import AdminLayout from "../pages/admin/admin-layout";
+import Dashboard from "../pages/admin/dashboard";
+import UserManagement from "../pages/admin/users/user-management";
+import HopeCloudManagement from "../pages/admin/hopecloud/hopecloud-management";
+import SitesManagement from "../pages/admin/sites/sites-management";
+import FusionSolarManagement from "../pages/admin/fusion-solar/fusion-solar-management";
+import ReportsManagement from "../pages/admin/reports/reports-management";
+import MonitoringManagement from "../pages/admin/monitoring/monitoring-management";
+import AnalyticsManagement from "../pages/admin/analytics/analytics-management";
+import NotificationsManagement from "../pages/admin/notifications/notifications-management";
+import DevicesManagement from "../pages/admin/devices/devices-management";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,21 +37,32 @@ const router = createBrowserRouter(
           </LoginProtect>
         }
       />
-      <Route path="*" element={<NotFound />} />
-      {/* TEACHER */}
-      <Route
-        path="teacher"
+      <Route 
+        path="activate" 
         element={
-          <LayoutProtect>
-            <TeacherLayout />
-          </LayoutProtect>
-        }
-      >
-        <Route path="groups" element={<Groups />} />
-        <Route path="courses" element={<Courses />} />
-        <Route path="students" element={<Students />} />
-      </Route>
-
+          <LoginProtect>
+            <ActivateAccount />
+          </LoginProtect>
+        } 
+      />
+      <Route 
+        path="reset-password" 
+        element={
+          <LoginProtect>
+            <ResetPassword />
+          </LoginProtect>
+        } 
+      />
+      <Route 
+        path="forgot-password" 
+        element={
+          <LoginProtect>
+            <ForgotPassword />
+          </LoginProtect>
+        } 
+      />
+      <Route path="*" element={<NotFound />} />
+      
       {/* ADMIN */}
       <Route
         path="admin"
@@ -56,23 +72,16 @@ const router = createBrowserRouter(
           </LayoutProtect>
         }
       >
-        <Route path="groups" element={<Groups />} />
-        <Route path="courses" element={<Courses />} />
-        <Route path="students" element={<Students />} />
-      </Route>
-
-      {/* STUDENT */}
-      <Route
-        path="student"
-        element={
-          <LayoutProtect>
-            <StudentLayout />
-          </LayoutProtect>
-        }
-      >
-        <Route path="groups" element={<Groups />} />
-        <Route path="courses" element={<Courses />} />
-        <Route path="students" element={<Students />} />
+        <Route index element={<Dashboard />} />
+        <Route path="sites" element={<SitesManagement />} />
+        <Route path="devices" element={<DevicesManagement />} />
+        <Route path="hopecloud" element={<HopeCloudManagement />} />
+        <Route path="fusion-solar" element={<FusionSolarManagement />} />
+        <Route path="reports" element={<ReportsManagement />} />
+        <Route path="monitoring" element={<MonitoringManagement />} />
+        <Route path="analytics" element={<AnalyticsManagement />} />
+        <Route path="notifications" element={<NotificationsManagement />} />
+        <Route path="users" element={<UserManagement />} />
       </Route>
     </Route>
   )

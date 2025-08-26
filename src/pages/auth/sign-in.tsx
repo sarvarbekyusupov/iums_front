@@ -1,54 +1,89 @@
-import { useState } from "react";
+import { Form, Input, Button, Card, Typography, Space } from "antd";
 import { useNavigate } from "react-router-dom";
-import { setItem } from "../../helpers";
 import { useAuth } from "../../hooks/useAuth";
-import { Button } from "antd";
+import type { LoginDto } from "../../types/auth";
+
+const { Title, Text } = Typography;
 
 const SignIn = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [role, setRole] = useState('')
-    const navigate = useNavigate()
-    const { mutate , isPending} = useAuth()
-    const submit = ()=>{
-        const payload = {email, password}
-       mutate(
-        {data:payload , role},
-        {
-          onSuccess:(res:any)=>{
-            if (res.status === 201) {
-              setItem("access_token", res.data.access_token);
-              setItem("role", role);
-              navigate(`/${role}`)
-            }
-          }
-        }
-       )
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const { login, isLoading } = useAuth();
+
+  const onFinish = async (values: LoginDto) => {
+    try {
+      await login(values);
+      navigate('/admin');
+    } catch (error) {
+      console.error('Login failed:', error);
     }
+  };
 
+  return (
+    <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      minHeight: '100vh',
+      background: '#f0f2f5'
+    }}>
+      <Card style={{ width: 400, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+          <div style={{ textAlign: 'center' }}>
+            <Title level={2}>Sign In</Title>
+            <Text type="secondary">Welcome back! Please sign in to your account.</Text>
+          </div>
+          
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={onFinish}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: 'Please input your email!' },
+                { type: 'email', message: 'Please enter a valid email!' }
+              ]}
+            >
+              <Input size="large" placeholder="Enter your email" />
+            </Form.Item>
 
-    return (
-      <div>
-        <input
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-        />
-        <input
-          type="passwrod"
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="password"
-        />
-        <select onChange={(e) => setRole(e.target.value)}>
-          <option value="teacher">teacher</option>
-          <option value="student">student</option>
-          <option value="admin">admin</option>
-          <option value="lid">lid</option>
-        </select>
-        <Button type="primary" onClick={submit} loading={isPending}>Submit</Button>
-      </div>
-    );
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+              <Input.Password size="large" placeholder="Enter your password" />
+            </Form.Item>
 
+            <Form.Item>
+              <Button 
+                type="primary" 
+                htmlType="submit" 
+                size="large"
+                block
+                loading={isLoading}
+              >
+                Sign In
+              </Button>
+            </Form.Item>
+          </Form>
+          
+          <div style={{ textAlign: 'center' }}>
+            <Space direction="vertical">
+              <a href="/forgot-password">Forgot your password?</a>
+              <Text type="secondary">
+                Don't have an account? Contact your administrator.
+              </Text>
+            </Space>
+          </div>
+        </Space>
+      </Card>
+    </div>
+  );
 };
 
 export default SignIn;

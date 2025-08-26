@@ -1,19 +1,31 @@
-import { getItem } from "../../helpers";
 import { Navigate, useLocation } from "react-router-dom"; 
-import type { ProtectProps } from "@types";
+import { useAuth } from "../../hooks/useAuth";
+import { Spin } from "antd";
 
-const LoginProtect = ({ children }:ProtectProps) => {
-  const isAuthenticated = getItem("access_token");
-  const role = getItem('role');
+interface ProtectProps {
+  children: React.ReactNode;
+}
+
+const LoginProtect = ({ children }: ProtectProps) => {
+  const { isAuthenticated, isLoading, user } = useAuth();
   const location = useLocation();
 
-  if (isAuthenticated) {
-    if (location.pathname === "/" || location.pathname === "/") {
-      return <Navigate to={`/${role}`} replace />;
-    }
-  } else {
-    if (location.pathname !== "/") {
-      return <Navigate to="/" replace />;
+  if (isLoading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh' 
+      }}>
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (isAuthenticated && user) {
+    if (location.pathname === "/") {
+      return <Navigate to="/admin" replace />;
     }
   }
 
