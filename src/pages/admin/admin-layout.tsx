@@ -39,8 +39,6 @@ const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Debug user data
-  console.log('AdminLayout - User data:', user);
 
   // Set initial open keys based on current location
   React.useEffect(() => {

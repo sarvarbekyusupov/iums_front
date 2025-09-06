@@ -99,10 +99,8 @@ class HopeCloudService {
     params.append('endTime', filters.endTime);
     
     const url = `${ApiUrls.HOPECLOUD.STATION_DAILY_STATS(plantId)}?${params.toString()}`;
-    console.log('Daily stats API call:', { plantId, filters, url });
     
     const response = await apiClient.get(url);
-    console.log('Daily stats API response:', response);
     return response.data;
   }
 
@@ -112,10 +110,8 @@ class HopeCloudService {
     params.append('endTime', filters.endTime);
     
     const url = `${ApiUrls.HOPECLOUD.STATION_MONTHLY_STATS(plantId)}?${params.toString()}`;
-    console.log('Monthly stats API call:', { plantId, filters, url });
     
     const response = await apiClient.get(url);
-    console.log('Monthly stats API response:', response);
     return response.data;
   }
 
@@ -125,10 +121,8 @@ class HopeCloudService {
     params.append('endTime', filters.endTime);
     
     const url = `${ApiUrls.HOPECLOUD.STATION_YEARLY_STATS(plantId)}?${params.toString()}`;
-    console.log('Yearly stats API call:', { plantId, filters, url });
     
     const response = await apiClient.get(url);
-    console.log('Yearly stats API response:', response);
     return response.data;
   }
 
@@ -137,10 +131,8 @@ class HopeCloudService {
     params.append('time', time);
     
     const url = `${ApiUrls.HOPECLOUD.STATION_HISTORICAL_POWER(plantId)}?${params.toString()}`;
-    console.log('Historical power API call:', { plantId, time, url });
     
     const response = await apiClient.get(url);
-    console.log('Historical power API response:', response);
     return response.data;
   }
 
@@ -339,12 +331,7 @@ class HopeCloudService {
   }
 
   async syncSiteDevices(siteId: number): Promise<HopeCloudApiResponse<HopeCloudDiscoveryResult>> {
-    console.log('Calling sync site devices API for site:', siteId);
-    console.log('API URL:', ApiUrls.HOPECLOUD.DISCOVERY_SITE_SYNC(siteId));
-    
     const response = await apiClient.post(ApiUrls.HOPECLOUD.DISCOVERY_SITE_SYNC(siteId));
-    
-    console.log('Sync API response:', response);
     return response.data;
   }
 

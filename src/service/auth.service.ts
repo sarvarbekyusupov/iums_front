@@ -257,14 +257,9 @@ class AuthService {
 
   async resendActivationEmail(id: number): Promise<{ message: string }> {
     try {
-      console.log(`Sending activation email for user ID: ${id}`);
-      console.log(`Request URL: ${ApiUrls.USERS.RESEND_ACTIVATION(id)}`);
-      
       const response: AxiosResponse<{ message: string }> = await this.apiClient.post(
         ApiUrls.USERS.RESEND_ACTIVATION(id)
       );
-      
-      console.log('Activation email response:', response.data);
       return response.data;
     } catch (error: any) {
       console.error('Activation email error details:', {
